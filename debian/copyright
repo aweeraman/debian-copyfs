@@ -1,0 +1,29 @@
+This package was debianized by Anuradha Weeraman <aweeraman@gmail.com> on
+Thu, 06 Mar 2008 22:06:06 -0500.
+
+The current Debian maintainer is Anuradha Weeraman <aweeraman@gmail.com>
+
+It was downloaded from http://n0x.org/copyfs/
+
+Upstream Authors:
+	Nicolas Vigier (boklm@mars-attacks.org)
+	Thomas Joubert (widan@net-42.eu.org)
+
+Copyright (C) 2004 Nicolas Vigier <boklm@mars-attacks.org>,
+ Thomas Joubert <widan@net-42.eu.org>
+
+CopyFS is distributed under the terms of GPL. On Debian systems, the 
+full text of the license can be found at /usr/share/common-licenses/GPL.
+    
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License with
+the Debian GNU/Linux distribution in file /usr/share/common-licenses/GPL;
+if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
+Fifth Floor, Boston, MA 02110-1301  USA
+
+The Debian packaging is (C) 2008, Anuradha Weeraman <aweeraman@gmail.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.

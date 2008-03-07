@@ -1,11 +1,14 @@
-.TH COPYFS-FVERSION "1" "October 2006" "copyfs-fversion" "User Commands"
+.TH COPYFS-FVERSION "1" "March 2008" "copyfs-fversion" "User Commands"
 .SH NAME
-copyfs-fversion
+copyfs-fversion \- manage file revisions
 .SH SYNOPSIS
 .B copyfs-fversion [-h] [-r] [-s] [-l version] [-g] file
-[\fIOPTIONS\fR]...
+.br
+.B copyfs-fversion [-t tag-name] directory
+.br
+.B copyfs-fversion [-u tag-name] directory
 .SH DESCRIPTION
-This is the copyfs-fversion program. This programs lets you see and change versions informations on files hosted on a copyfs file system.
+\fBcopyfs-fversion\fR lets you view and modify version information of files hosted on a CopyFS file system.
 .TP
 \fB\-h\fR
 Print help and exit
@@ -22,16 +25,19 @@ Get the version number in use
 \fB\-l\fR \fIversion\fR
 Lock this version
 .TP
-\fB\-t\fR \fItagfile\fR
-Create a tagfile. This tagfile will contain the versions informations about the selected files. You can then restore thoses version later using this tagfile.
+\fB\-t\fR \fItag\fR
+Tag the current revisions of files in a directory. This tag will hold the version information of the affected files and will allow the user to later restore files to the state they were in when the tag was created.
 .TP
-\fB\-u\fR \fItagfile\fR
-Restore a tagfile.
+\fB\-u\fR \fItag\fR
+Restore revisions of the files to the state at the point of the tag.
+
 .SH AUTHORS
 CopyFS was created by Thomas Joubert and Nicolas Vigier <boklm@mars-attacks.org>
-.SH "MORE INFOS"
+.SH LINKS
 
-http://n0x.org/copyfs/
+<http://n0x.org/copyfs/> CopyFS web site.
+
+<http://fuse.sourceforge.net/> FUSE - Filesystem in USErspace
 
 .SH SEE ALSO
 copyfs(1), copyfs-mount(1), copyfs-daemon(1)

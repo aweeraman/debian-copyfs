@@ -1,0 +1,7 @@
+copyfs for Debian
+-----------------
+
+for non-root users to be able to mount the CopyFS filesystem, the user needs to 
+be added to the 'fuse' group.
+
+-- Anuradha Weeraman (anu) <aweeraman@gmail.com>  Mon, 10 Mar 2008 00:04:18 -0500
