@@ -1,3 +1,10 @@
+copyfs (1.0.1-2) unstable; urgency=low
+
+  * Bashism (Closes: #473684)
+  * Updated debian/control, added Uploaders and Homepage fields
+
+ -- Anuradha Weeraman (anu) <aweeraman@gmail.com>  Thu, 03 Apr 2008 19:11:40 -0400
+
 copyfs (1.0.1-1) unstable; urgency=low
 
   * Initial release (Closes: #469530)
