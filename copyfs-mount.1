@@ -1,24 +1,36 @@
-.TH COPYFS-MOUNT "1" "March 2008" "copyfs-mount" "User Commands"
+.TH COPYFS-MOUNT "1" "May 2008" "copyfs-mount" "User Commands"
 .SH NAME
 copyfs-mount \- mounts a versioned file system
 .SH SYNOPSIS
 .B copyfs-mount \fIversion-directory\fR \fImount-point\fR
 .SH DESCRIPTION
-This script lets you mount a CopyFS file system. \fIversion-directory\fR is the directory where the files and version information will be stored by CopyFS, so choose a directory where a lot of free space is available. This directory should not be accessed by the users, so it is a good idea to put that directory inside a directory owned by root, for which you don't allow access to non-root users. If you mount your copyfs file system for the first time, an empty directory should be fine (copyfs-mount will create the required files before running copyfs-daemon). \fImount-point\fR is the directory where the copyfs file system should be mounted. This is where the users will access the files.
+This script lets you mount a CopyFS file system. \fIversion-directory\fR
+is the directory where the files and version information will be stored by
+CopyFS.
 
-If you want to mount a CopyFS at '/mnt/fs', whose version directory is at /var/versions, you would use:
+When using CopyFS for the first time, copyfs-mount will create
+the required files in the \fIversion-directory\fR before running
+copyfs-daemon. \fImount-point\fR is the directory where the copyfs
+file system will be mounted. This is where the users will have access
+to the files.
 
-root # copyfs-mount /var/versions /mnt/fs
+If you want to mount a CopyFS at '/mnt/fs', whose version directory is
+at /var/versions, you would use:
+
+	\fBroot@host# copyfs-mount /var/versions /mnt/fs\fR
 
 To unmount it, simply do:
 
-root # umount /mnt/fs
+	\fBroot@host# umount /mnt/fs\fR
 
 As you would do for any other filesystem.
 
-You can also allow an ordinary non-root user to mount and unmount CopyFS filesystems provided that the user is added to the 'fuse' group. Ordinary users will be able unmount the filesystem, using the \fIfusermount\fR command:
+You can also allow an ordinary non-root users to mount and unmount CopyFS
+filesystems provided that the user is added to the 'fuse' group. Ordinary
+users will be able unmount the filesystem, using the \fIfusermount\fR
+command:
 
-$ fusermount \-u \fImount-point\fR
+	\fB$ fusermount \-u \fImount-point\fR \fR
 
 .SH AUTHORS
 CopyFS was created by Thomas Joubert and Nicolas Vigier <boklm@mars-attacks.org>

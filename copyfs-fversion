@@ -77,7 +77,7 @@ sub get_ea($$)
     my ($output, $error);
     my $cmd;
 
-    $cmd = "getfattr -h -n '$name' --only-values -- '$file'";
+    $cmd = "getfattr --absolute-names -h -n '$name' --only-values -- '$file'";
     ($output, $error) = run_command($cmd);
     $error =~ s/^getfattr: // if $error;
     return ($output, $error);

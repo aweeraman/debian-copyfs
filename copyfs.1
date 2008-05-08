@@ -1,19 +1,27 @@
-.TH COPYFS "1" "March 2008" "copyfs" "Versioning File System"
+.TH COPYFS "1" "May 2008" "copyfs" "Versioning File System"
 .SH NAME
 CopyFS \- Versioning File System for FUSE
 .SH DESCRIPTION
-CopyFS is a copy-on-write, versioning file system for FUSE. CopyFS can be used to maintain the revision history of a directory containing files for which you want to track changes, and be able to revert to any older version. CopyFS lets you do that by transparently making backups of each file that you modify that you can review and revert to at any point.
+CopyFS is a copy-on-write, versioning file system for FUSE. CopyFS can
+be used to maintain the revision history of a directory containing files
+for which you want to track changes, and be able to revert to any older
+version. CopyFS lets you do that by transparently making backups of each
+file that you modify so that you can review and revert to any previous
+revision.
 
-Here is the list of commands related to CopyFS. See their man pages for additional documentation.
+Here is the list of commands related to CopyFS. See their man pages for
+additional documentation.
 .TP
 \fIcopyfs-mount\fR(1)
 Allows a directory to be placed under CopyFS revision control.
 .TP
 \fIcopyfs-fversion\fR(1)
-This command lets you check the revision history of a file, and maybe revert to an older version.
+This command lets you check the revision history of a file, and
+revert to an older version.
 .TP
 \fIcopyfs-daemon\fR(1)
-The CopyFS file system itself. You should not have to run it by yourself, instead use the copyfs-mount command.
+The CopyFS file system itself. You should not have to run it directly,
+instead use the copyfs-mount command.
 
 .SH HISTORY
 CopyFS 1.0 was released in December 2004.

@@ -1,14 +1,15 @@
-.TH COPYFS-FVERSION "1" "March 2008" "copyfs-fversion" "User Commands"
+.TH COPYFS-FVERSION "1" "May 2008" "copyfs-fversion" "User Commands"
 .SH NAME
 copyfs-fversion \- manage file revisions
 .SH SYNOPSIS
-.B copyfs-fversion [-h] [-r] [-s] [-l version] [-g] file
+.B copyfs\-fversion [\fI\-h\fR] [\fI\-r\fR] [\fI\-s\fR] [\fI\-l version\fR] [\fI\-g\fR] file
 .br
-.B copyfs-fversion [-t tag-name] directory
+.B copyfs\-fversion [\fI\-t tag\-name\fR] directory
 .br
-.B copyfs-fversion [-u tag-name] directory
+.B copyfs\-fversion [\fI\-u tag\-name\fR] directory
 .SH DESCRIPTION
-\fBcopyfs-fversion\fR lets you view and modify version information of files hosted on a CopyFS file system.
+\fBcopyfs-fversion\fR lets you view and modify version information of
+files hosted on a CopyFS file system.
 .TP
 \fB\-h\fR
 Print help and exit
@@ -26,7 +27,9 @@ Get the version number in use
 Lock this version
 .TP
 \fB\-t\fR \fItag\fR
-Tag the current revisions of files in a directory. This tag will hold the version information of the affected files and will allow the user to later restore files to the state they were in when the tag was created.
+Tag the current revisions of files in a directory. This tag will hold
+the version information of the affected files and will allow the user
+to later restore files to the state they were in when the tag was created.
 .TP
 \fB\-u\fR \fItag\fR
 Restore revisions of the files to the state at the point of the tag.
