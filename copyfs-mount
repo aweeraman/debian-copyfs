@@ -24,7 +24,7 @@ fi
 
 # Check fuse module
 if ! grep fuse /proc/modules > /dev/null; then
-    if [ $UID = 0 ]; then
+    if [ "$(id -ru)" = "0" ]; then
 	modprobe fuse > /dev/null || {
 	    echo "Could not load fuse kernel module !" 1>&2
 	    exit 1
@@ -38,7 +38,7 @@ if ! grep fuse /proc/modules > /dev/null; then
     fi
 fi
 
-if [ $UID = 0 ]; then
+if [ "$(id -ru)" = "0" ]; then
     # Allow other users and check permissions if run by root
     FILESYSTEM_PARAMETERS="${FILESYSTEM_PARAMETERS} -o default_permissions,allow_other"
 fi
