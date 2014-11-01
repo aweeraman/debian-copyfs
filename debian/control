@@ -2,14 +2,14 @@ Source: copyfs
 Section: utils
 Priority: optional
 Maintainer: Anuradha Weeraman (anu) <aweeraman@gmail.com>
-Build-Depends: debhelper (>= 5), autotools-dev, libattr1-dev, libfuse-dev
-Standards-Version: 3.7.3
+Build-Depends: debhelper (>= 9), autotools-dev, libattr1-dev, libfuse-dev
+Standards-Version: 3.9.6
 Uploaders: NIIBE Yutaka <gniibe@fsij.org>
 Homepage: http://n0x.org/copyfs/
 
 Package: copyfs
 Architecture: any
-Depends: ${shlibs:Depends}, attr, perl
+Depends: ${shlibs:Depends}, ${misc:Depends}, attr, perl
 Description: Versioning filesystem for FUSE
  CopyFS keeps versioned copies of all changes done to files under its
  control and allows the user to revert back to any previous revision.

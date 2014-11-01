@@ -28,7 +28,7 @@ use Getopt::Std;
 sub run_command($)
 {
     my $command = shift;
-    my ($output, $error);
+    my ($output, $error, $msg);
     my $selector;
     my $pid;
 
@@ -49,11 +49,13 @@ sub run_command($)
 	{
 	    if (fileno($fh) == fileno(ERROR))
 	    {
-		$error .= scalar(<ERROR>);
+		$msg = scalar(<ERROR>);
+		$error .= $msg if defined($msg);
 	    }
 	    else
 	    {
-		$output .= scalar(<OUTPUT>);
+		$msg = scalar(<OUTPUT>);
+		$output .= $msg if defined($msg);
 	    }
 	    $selector->remove($fh) if eof($fh);
 	}

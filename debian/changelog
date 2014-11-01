@@ -1,3 +1,11 @@
+copyfs (1.0.1-5) unstable; urgency=low
+
+  * Fix for kernels where FUSE may be compiled in
+  * Minor fix for uninitialized variables in copyfs-fversion
+  * Fixed lintian warnings
+
+ -- Anuradha Weeraman (anu) <aweeraman@gmail.com>  Sat, 01 Nov 2014 16:41:18 +0530
+
 copyfs (1.0.1-4) unstable; urgency=low
 
   * Patch for Bashism by Matthew Johnson <mjj29@debian.org> (Closes: #489553)
