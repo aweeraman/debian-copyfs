@@ -1,3 +1,11 @@
+copyfs (1.0.1-6) unstable; urgency=low
+
+  * Updated Standards-Version
+  * Upgraded debian/compat level
+  * Added debian/source/format
+
+ -- Anuradha Weeraman <aweeraman@gmail.com>  Tue, 01 Oct 2019 20:14:47 -0400
+
 copyfs (1.0.1-5) unstable; urgency=low
 
   * Fix for kernels where FUSE may be compiled in
