@@ -28,7 +28,6 @@ OBJ	= $(SRC:.c=.o)
 
 CC	= gcc
 CFLAGS	= -Wall -ansi -W -std=c99 -g -ggdb -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
-LDFLAGS = $(shell dpkg-buildflags --get LDFLAGS)
 LIBS	= -lfuse
 
 all: $(TARGET)
@@ -55,7 +54,7 @@ dist:
 	rm -rf /tmp/copyfs-dist
 
 $(TARGET): $(OBJ)
-	gcc $(LDFLAGS) -o $(TARGET) $(OBJ) $(LIBS)
+	gcc -o $(TARGET) $(OBJ) $(LIBS)
 
 # Dependencies (use gcc -MM -D_FILE_OFFSET_BITS=64 *.c to regenerate)
 

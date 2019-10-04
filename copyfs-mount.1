@@ -1,44 +1,20 @@
-.TH COPYFS-MOUNT "1" "May 2008" "copyfs-mount" "User Commands"
+.TH COPYFS-MOUNT "1" "October 2006" "copyfs-mount" "User Commands"
 .SH NAME
-copyfs-mount \- mounts a versioned file system
+copyfs-mount
 .SH SYNOPSIS
 .B copyfs-mount \fIversion-directory\fR \fImount-point\fR
 .SH DESCRIPTION
-This script lets you mount a CopyFS file system. \fIversion-directory\fR
-is the directory where the files and version information will be stored by
-CopyFS.
+This script lets you mount a copyfs file system. \fIversion-directory\fR is the directory where the files and versions informations will be stored, so choose a directory where a lot of free space is available. This directory should not be accessed by the users, to it is a good idea to put that directory inside a directory owned by root, for which you don't allow access to users. If you mount your copyfs file system for the first time, an empty directory should be fine (copyfs-mount will create the required files before running copyfs-daemon). \fImount-point\fR is the directory where the copyfs file system should be mounted. This is where the users will access the files.
 
-When using CopyFS for the first time, copyfs-mount will create
-the required files in the \fIversion-directory\fR before running
-copyfs-daemon. \fImount-point\fR is the directory where the copyfs
-file system will be mounted. This is where the users will have access
-to the files.
-
-If you want to mount a CopyFS at '/mnt/fs', whose version directory is
-at /var/versions, you would use:
-
-	\fBroot@host# copyfs-mount /var/versions /mnt/fs\fR
-
-To unmount it, simply do:
-
-	\fBroot@host# umount /mnt/fs\fR
-
-As you would do for any other filesystem.
-
-You can also allow an ordinary non-root users to mount and unmount CopyFS
-filesystems provided that the user is added to the 'fuse' group. Ordinary
-users will be able unmount the filesystem, using the \fIfusermount\fR
-command:
-
-	\fB$ fusermount \-u \fImount-point\fR \fR
+In order to unmount the filesystem, use the \fIfusermount\fR command :
+.IP ""
+$ fusermount \-u \fImount-point\fR
 
 .SH AUTHORS
 CopyFS was created by Thomas Joubert and Nicolas Vigier <boklm@mars-attacks.org>
-.SH LINKS
+.SH "MORE INFOS"
 
-<http://n0x.org/copyfs/> CopyFS web site.
-
-<http://fuse.sourceforge.net/> FUSE - Filesystem in USErspace
+http://n0x.org/copyfs/
 
 .SH SEE ALSO
-copyfs(1), copyfs-fversion(1), copyfs-daemon(1), fusermount(1)
+copyfs(1), copyfs-fversion(1), copyfs-daemon(1)

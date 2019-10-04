@@ -1,0 +1,10 @@
+cache.o
+copyfs-daemon
+create.o
+ea.o
+helper.o
+interface.o
+lookup.o
+main.o
+parse.o
+write.o

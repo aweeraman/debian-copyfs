@@ -1,0 +1,273 @@
+Description: Debianization-fixes
+ Documentation, build-related and other fixes for this now upstream
+ unmaintained package. This includes a patch for Bashism by
+ Matthew Johnson <mjj29@debian.org>.
+Author: Anuradha Weeraman <aweeraman@gmail.com>
+Last-Update: 2019-10-04
+
+--- copyfs-1.0.1.orig/Makefile.in
++++ copyfs-1.0.1/Makefile.in
+@@ -28,6 +28,7 @@ OBJ	= $(SRC:.c=.o)
+ 
+ CC	= gcc
+ CFLAGS	= -Wall -ansi -W -std=c99 -g -ggdb -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
++LDFLAGS = $(shell dpkg-buildflags --get LDFLAGS)
+ LIBS	= -lfuse
+ 
+ all: $(TARGET)
+@@ -54,7 +55,7 @@ dist:
+ 	rm -rf /tmp/copyfs-dist
+ 
+ $(TARGET): $(OBJ)
+-	gcc -o $(TARGET) $(OBJ) $(LIBS)
++	gcc $(LDFLAGS) -o $(TARGET) $(OBJ) $(LIBS)
+ 
+ # Dependencies (use gcc -MM -D_FILE_OFFSET_BITS=64 *.c to regenerate)
+ 
+--- copyfs-1.0.1.orig/copyfs-daemon.1
++++ copyfs-1.0.1/copyfs-daemon.1
+@@ -1,16 +1,20 @@
+-.TH COPYFS-DAEMON "1" "October 2006" "copyfs-daemon" "User Commands"
++.TH COPYFS-DAEMON "1" "May 2008" "copyfs-daemon" "User Commands"
+ .SH NAME
+-copyfs-daemon
++copyfs-daemon \- CopyFS daemon
+ .SH SYNOPSIS
+ .B copyfs-daemon
+ [\fIOPTIONS\fR]...
+ .SH DESCRIPTION
+-This is the copyfs-daemon. You should not run this program directly, instead, use copyfs-mount.
++This is the copyfs-daemon. You should not run this program directly,
++instead, use copyfs-mount.
+ .SH AUTHORS
+-CopyFS was created by Thomas Joubert and Nicolas Vigier <boklm@mars-attacks.org>
+-.SH "MORE INFOS"
++CopyFS was created by Thomas Joubert and Nicolas Vigier
++<boklm@mars-attacks.org>
++.SH LINKS
+ 
+-http://n0x.org/copyfs/
++<http://n0x.org/copyfs/> CopyFS web site.
++
++<http://fuse.sourceforge.net/> FUSE - Filesystem in USErspace
+ 
+ .SH SEE ALSO
+ copyfs(1), copyfs-fversion(1), copyfs-mount(1)
+--- copyfs-1.0.1.orig/copyfs-fversion
++++ copyfs-1.0.1/copyfs-fversion
+@@ -28,7 +28,7 @@ use Getopt::Std;
+ sub run_command($)
+ {
+     my $command = shift;
+-    my ($output, $error);
++    my ($output, $error, $msg);
+     my $selector;
+     my $pid;
+ 
+@@ -49,11 +49,13 @@ sub run_command($)
+ 	{
+ 	    if (fileno($fh) == fileno(ERROR))
+ 	    {
+-		$error .= scalar(<ERROR>);
++		$msg = scalar(<ERROR>);
++		$error .= $msg if defined($msg);
+ 	    }
+ 	    else
+ 	    {
+-		$output .= scalar(<OUTPUT>);
++		$msg = scalar(<OUTPUT>);
++		$output .= $msg if defined($msg);
+ 	    }
+ 	    $selector->remove($fh) if eof($fh);
+ 	}
+@@ -77,7 +79,7 @@ sub get_ea($$)
+     my ($output, $error);
+     my $cmd;
+ 
+-    $cmd = "getfattr -h -n '$name' --only-values -- '$file'";
++    $cmd = "getfattr --absolute-names -h -n '$name' --only-values -- '$file'";
+     ($output, $error) = run_command($cmd);
+     $error =~ s/^getfattr: // if $error;
+     return ($output, $error);
+--- copyfs-1.0.1.orig/copyfs-fversion.1
++++ copyfs-1.0.1/copyfs-fversion.1
+@@ -1,11 +1,15 @@
+-.TH COPYFS-FVERSION "1" "October 2006" "copyfs-fversion" "User Commands"
++.TH COPYFS-FVERSION "1" "May 2008" "copyfs-fversion" "User Commands"
+ .SH NAME
+-copyfs-fversion
++copyfs-fversion \- manage file revisions
+ .SH SYNOPSIS
+-.B copyfs-fversion [-h] [-r] [-s] [-l version] [-g] file
+-[\fIOPTIONS\fR]...
++.B copyfs\-fversion [\fI\-h\fR] [\fI\-r\fR] [\fI\-s\fR] [\fI\-l version\fR] [\fI\-g\fR] file
++.br
++.B copyfs\-fversion [\fI\-t tag\-name\fR] directory
++.br
++.B copyfs\-fversion [\fI\-u tag\-name\fR] directory
+ .SH DESCRIPTION
+-This is the copyfs-fversion program. This programs lets you see and change versions informations on files hosted on a copyfs file system.
++\fBcopyfs-fversion\fR lets you view and modify version information of
++files hosted on a CopyFS file system.
+ .TP
+ \fB\-h\fR
+ Print help and exit
+@@ -22,16 +26,21 @@ Get the version number in use
+ \fB\-l\fR \fIversion\fR
+ Lock this version
+ .TP
+-\fB\-t\fR \fItagfile\fR
+-Create a tagfile. This tagfile will contain the versions informations about the selected files. You can then restore thoses version later using this tagfile.
++\fB\-t\fR \fItag\fR
++Tag the current revisions of files in a directory. This tag will hold
++the version information of the affected files and will allow the user
++to later restore files to the state they were in when the tag was created.
+ .TP
+-\fB\-u\fR \fItagfile\fR
+-Restore a tagfile.
++\fB\-u\fR \fItag\fR
++Restore revisions of the files to the state at the point of the tag.
++
+ .SH AUTHORS
+ CopyFS was created by Thomas Joubert and Nicolas Vigier <boklm@mars-attacks.org>
+-.SH "MORE INFOS"
++.SH LINKS
++
++<http://n0x.org/copyfs/> CopyFS web site.
+ 
+-http://n0x.org/copyfs/
++<http://fuse.sourceforge.net/> FUSE - Filesystem in USErspace
+ 
+ .SH SEE ALSO
+ copyfs(1), copyfs-mount(1), copyfs-daemon(1)
+--- copyfs-1.0.1.orig/copyfs-mount
++++ copyfs-1.0.1/copyfs-mount
+@@ -23,8 +23,8 @@ then
+ fi
+ 
+ # Check fuse module
+-if ! grep fuse /proc/modules > /dev/null; then
+-    if [ $UID = 0 ]; then
++if ! grep fuse /proc/filesystems > /dev/null; then
++    if [ "$(id -ru)" = "0" ]; then
+ 	modprobe fuse > /dev/null || {
+ 	    echo "Could not load fuse kernel module !" 1>&2
+ 	    exit 1
+@@ -38,7 +38,7 @@ if ! grep fuse /proc/modules > /dev/null
+     fi
+ fi
+ 
+-if [ $UID == 0 ]; then
++if [ "$(id -ru)" = "0" ]; then
+     # Allow other users and check permissions if run by root
+     FILESYSTEM_PARAMETERS="${FILESYSTEM_PARAMETERS} -o default_permissions,allow_other"
+ fi
+--- copyfs-1.0.1.orig/copyfs-mount.1
++++ copyfs-1.0.1/copyfs-mount.1
+@@ -1,20 +1,44 @@
+-.TH COPYFS-MOUNT "1" "October 2006" "copyfs-mount" "User Commands"
++.TH COPYFS-MOUNT "1" "May 2008" "copyfs-mount" "User Commands"
+ .SH NAME
+-copyfs-mount
++copyfs-mount \- mounts a versioned file system
+ .SH SYNOPSIS
+ .B copyfs-mount \fIversion-directory\fR \fImount-point\fR
+ .SH DESCRIPTION
+-This script lets you mount a copyfs file system. \fIversion-directory\fR is the directory where the files and versions informations will be stored, so choose a directory where a lot of free space is available. This directory should not be accessed by the users, to it is a good idea to put that directory inside a directory owned by root, for which you don't allow access to users. If you mount your copyfs file system for the first time, an empty directory should be fine (copyfs-mount will create the required files before running copyfs-daemon). \fImount-point\fR is the directory where the copyfs file system should be mounted. This is where the users will access the files.
++This script lets you mount a CopyFS file system. \fIversion-directory\fR
++is the directory where the files and version information will be stored by
++CopyFS.
+ 
+-In order to unmount the filesystem, use the \fIfusermount\fR command :
+-.IP ""
+-$ fusermount \-u \fImount-point\fR
++When using CopyFS for the first time, copyfs-mount will create
++the required files in the \fIversion-directory\fR before running
++copyfs-daemon. \fImount-point\fR is the directory where the copyfs
++file system will be mounted. This is where the users will have access
++to the files.
++
++If you want to mount a CopyFS at '/mnt/fs', whose version directory is
++at /var/versions, you would use:
++
++	\fBroot@host# copyfs-mount /var/versions /mnt/fs\fR
++
++To unmount it, simply do:
++
++	\fBroot@host# umount /mnt/fs\fR
++
++As you would do for any other filesystem.
++
++You can also allow an ordinary non-root users to mount and unmount CopyFS
++filesystems provided that the user is added to the 'fuse' group. Ordinary
++users will be able unmount the filesystem, using the \fIfusermount\fR
++command:
++
++	\fB$ fusermount \-u \fImount-point\fR \fR
+ 
+ .SH AUTHORS
+ CopyFS was created by Thomas Joubert and Nicolas Vigier <boklm@mars-attacks.org>
+-.SH "MORE INFOS"
++.SH LINKS
++
++<http://n0x.org/copyfs/> CopyFS web site.
+ 
+-http://n0x.org/copyfs/
++<http://fuse.sourceforge.net/> FUSE - Filesystem in USErspace
+ 
+ .SH SEE ALSO
+-copyfs(1), copyfs-fversion(1), copyfs-daemon(1)
++copyfs(1), copyfs-fversion(1), copyfs-daemon(1), fusermount(1)
+--- copyfs-1.0.1.orig/copyfs.1
++++ copyfs-1.0.1/copyfs.1
+@@ -1,26 +1,38 @@
+-.TH COPYFS "1" "October 2006" "copyfs" "Versionned File System"
++.TH COPYFS "1" "May 2008" "copyfs" "Versioning File System"
+ .SH NAME
+-copyfs
++CopyFS \- Versioning File System for FUSE
+ .SH DESCRIPTION
+-CopyFS is a copy-on-write, versionned file system. This file system is usefull for example when you have a directory containing important files, for which you want to track changes, and be able to revert to an older version. CopyFS lets you do that by transparently making backups of each file that you modify. You are then able to see what version are available for a file, and get an older version.
++CopyFS is a copy-on-write, versioning file system for FUSE. CopyFS can
++be used to maintain the revision history of a directory containing files
++for which you want to track changes, and be able to revert to any older
++version. CopyFS lets you do that by transparently making backups of each
++file that you modify so that you can review and revert to any previous
++revision.
+ 
+-The main commands related to CopyFS are :
++Here is the list of commands related to CopyFS. See their man pages for
++additional documentation.
+ .TP
+-\fBcopyfs-mount\fR :
+-The command that you should use to mount a CopyFS file system.
++\fIcopyfs-mount\fR(1)
++Allows a directory to be placed under CopyFS revision control.
+ .TP
+-\fBcopyfs-daemon\fR :
+-The CopyFS file system itself. You should not have to run it by yourself, instead use the copyfs-mount command.
++\fIcopyfs-fversion\fR(1)
++This command lets you check the revision history of a file, and
++revert to an older version.
+ .TP
+-\fBcopyfs-fversion\fR :
+-The command that you should use when you want to check which version are available for a file, and maybe revert to an older version.
++\fIcopyfs-daemon\fR(1)
++The CopyFS file system itself. You should not have to run it directly,
++instead use the copyfs-mount command.
++
+ .SH HISTORY
+ CopyFS 1.0 was released in December 2004.
+ .SH AUTHORS
+ CopyFS was created by Thomas Joubert and Nicolas Vigier <nv@n0x.org>
+-.SH "MORE INFOS"
+ 
+-http://n0x.org/copyfs/
++.SH LINKS
++
++<http://n0x.org/copyfs/> CopyFS web site.
++
++<http://fuse.sourceforge.net/> FUSE - Filesystem in USErspace
+ 
+ .SH SEE ALSO
+ copyfs-fversion(1), copyfs-mount(1), copyfs-daemon(1)

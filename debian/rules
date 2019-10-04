@@ -26,25 +26,22 @@ build-indep: build-stamp
 
 build-stamp:  config.status
 	dh_testdir
-
 	$(MAKE)
-
 	touch $@
 
 clean:
+	dh_prep
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp 
-
 	[ ! -f Makefile ] || $(MAKE) distclean clean
 	rm -f config.log config.cache config.sub config.guess config.status Makefile
-
-	dh_clean 
+	dh_clean
 
 install: build
+	dh_prep
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
 	dh_installdirs
 
 	$(MAKE) prefix=$(CURDIR)/debian/copyfs/usr install

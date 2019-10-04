@@ -1,3 +1,11 @@
+copyfs (1.0.1-7) unstable; urgency=low
+
+  * Changed source format
+  * Fixed dh_clean lintian warning
+  * Added architecture wildcard to debian/control
+
+ -- Anuradha Weeraman <aweeraman@gmail.com>  Fri, 04 Oct 2019 13:51:47 -0500
+
 copyfs (1.0.1-6) unstable; urgency=low
 
   * Updated Standards-Version

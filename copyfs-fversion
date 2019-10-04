@@ -28,7 +28,7 @@ use Getopt::Std;
 sub run_command($)
 {
     my $command = shift;
-    my ($output, $error, $msg);
+    my ($output, $error);
     my $selector;
     my $pid;
 
@@ -49,13 +49,11 @@ sub run_command($)
 	{
 	    if (fileno($fh) == fileno(ERROR))
 	    {
-		$msg = scalar(<ERROR>);
-		$error .= $msg if defined($msg);
+		$error .= scalar(<ERROR>);
 	    }
 	    else
 	    {
-		$msg = scalar(<OUTPUT>);
-		$output .= $msg if defined($msg);
+		$output .= scalar(<OUTPUT>);
 	    }
 	    $selector->remove($fh) if eof($fh);
 	}
@@ -79,7 +77,7 @@ sub get_ea($$)
     my ($output, $error);
     my $cmd;
 
-    $cmd = "getfattr --absolute-names -h -n '$name' --only-values -- '$file'";
+    $cmd = "getfattr -h -n '$name' --only-values -- '$file'";
     ($output, $error) = run_command($cmd);
     $error =~ s/^getfattr: // if $error;
     return ($output, $error);

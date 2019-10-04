@@ -1,38 +1,26 @@
-.TH COPYFS "1" "May 2008" "copyfs" "Versioning File System"
+.TH COPYFS "1" "October 2006" "copyfs" "Versionned File System"
 .SH NAME
-CopyFS \- Versioning File System for FUSE
+copyfs
 .SH DESCRIPTION
-CopyFS is a copy-on-write, versioning file system for FUSE. CopyFS can
-be used to maintain the revision history of a directory containing files
-for which you want to track changes, and be able to revert to any older
-version. CopyFS lets you do that by transparently making backups of each
-file that you modify so that you can review and revert to any previous
-revision.
+CopyFS is a copy-on-write, versionned file system. This file system is usefull for example when you have a directory containing important files, for which you want to track changes, and be able to revert to an older version. CopyFS lets you do that by transparently making backups of each file that you modify. You are then able to see what version are available for a file, and get an older version.
 
-Here is the list of commands related to CopyFS. See their man pages for
-additional documentation.
+The main commands related to CopyFS are :
 .TP
-\fIcopyfs-mount\fR(1)
-Allows a directory to be placed under CopyFS revision control.
+\fBcopyfs-mount\fR :
+The command that you should use to mount a CopyFS file system.
 .TP
-\fIcopyfs-fversion\fR(1)
-This command lets you check the revision history of a file, and
-revert to an older version.
+\fBcopyfs-daemon\fR :
+The CopyFS file system itself. You should not have to run it by yourself, instead use the copyfs-mount command.
 .TP
-\fIcopyfs-daemon\fR(1)
-The CopyFS file system itself. You should not have to run it directly,
-instead use the copyfs-mount command.
-
+\fBcopyfs-fversion\fR :
+The command that you should use when you want to check which version are available for a file, and maybe revert to an older version.
 .SH HISTORY
 CopyFS 1.0 was released in December 2004.
 .SH AUTHORS
 CopyFS was created by Thomas Joubert and Nicolas Vigier <nv@n0x.org>
+.SH "MORE INFOS"
 
-.SH LINKS
-
-<http://n0x.org/copyfs/> CopyFS web site.
-
-<http://fuse.sourceforge.net/> FUSE - Filesystem in USErspace
+http://n0x.org/copyfs/
 
 .SH SEE ALSO
 copyfs-fversion(1), copyfs-mount(1), copyfs-daemon(1)
