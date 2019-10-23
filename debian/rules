@@ -33,7 +33,7 @@ clean:
 	dh_prep
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp 
+	rm -f build-stamp
 	[ ! -f Makefile ] || $(MAKE) distclean clean
 	rm -f config.log config.cache config.sub config.guess config.status Makefile
 	dh_clean
@@ -51,7 +51,7 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs 
+	dh_installchangelogs
 	dh_installdocs
 	dh_installman
 	dh_strip
@@ -64,4 +64,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+.PHONY: build clean binary-indep binary-arch binary install
